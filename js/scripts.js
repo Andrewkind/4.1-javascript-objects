@@ -42,6 +42,11 @@ console.log( validJSONString ); // This can be interpreted by other programming 
  * Class
  * 
  * Classes are like blueprints! We make a guide/definition on what each person will have inside.
+ * 
+ * Values kept inside an object are considered "properties." --> similar to variables.
+ * ---> When accessing properties, the syntax looks like: myObject.property
+ * Sets of instructions kept inside an object are considered "methods." --> similar to functions.
+ * ---> When executing methods, the syntax looks like: myObject.myMethod()
  */
 
 // Start our blueprint with the "class" keyword.
@@ -63,6 +68,43 @@ class Person {
     // Add the new element to the body of our webpage.
     document.body.appendChild( helloElement );
   }
+  // Increment age property by one, via our "birthday" method.
+  birthday ()
+  {
+    // Make sure to use "this" to refer to the current object!
+    // !!! typing just "age" would cause JS to look for a variable (that is not here!)
+    this.age = this.age + 1;
+  }
+  // Method to add a new hobby to our "this.hobbies" array property.
+  addHobby ( hobby = "" ) // Parameter with default value.
+  {
+    // Check if the hobby is filled in.
+    if ( hobby.length > 0 )
+    { // If it IS filled in, push it to the array!
+      this.hobbies.push( hobby );
+    }
+    else
+    { // If it is NOT filled in, say so in the console :(
+      console.log( "Sorry, empty hobby. Please try again." );
+    }
+  }
+  // Output the hobbies in the browser (in HTML, not console.)
+  outputListOfHobbies ()
+  {
+    // New list HTMLElement (<ul>)...
+    const hobbyList = document.createElement( "UL" );
+    // Loop, terminating based on the length of our hobbies property (array data-type.)
+    for ( let index = 0; index < this.hobbies.length; index++ ) // index = index + 1
+    { // New list item HTMLElement (<li>)...
+      const hobbyListItem = document.createElement( "LI" );
+      // Add text inside of the HTMLElement.
+      hobbyListItem.textContent = this.hobbies[index]; // Index from our loop! Iterated each time.
+      // Add the populated list item HTMLElement (<li>) to the list HTMLElement (<ul>).
+      hobbyList.appendChild( hobbyListItem );
+    }
+    // Add the whole populated list HTMLElement (<ul>) to the webpage (inside <body>).
+    document.body.appendChild( hobbyList );
+  }
 }
 
 // Let's make some people!
@@ -75,7 +117,14 @@ const jia = new Person( "Jia Then", 800, ["Sleep", "Cosplay"] );
 console.log( jia );
 jia.height = "7'"; // We /can/ update and add new properties (but should we? Probably not.)
 console.log( jia );
+// Running the hello method.
 jia.sayHello();
-
-// Values kept inside an object are considered "properties."
-// Sets of instructions kept inside an object are considered "methods."
+// Running the birthday method.
+jia.birthday(); // Now she is 801!
+console.log( "Jia is now... " + jia.age + " years old!" );
+// Add some hobbies to Jia's list...
+jia.addHobby( "Programming" );
+jia.addHobby( "Asking Questions" );
+console.log( jia.hobbies ); // Check the hobbies property.
+// Let's try outputting the hobbies to HTML using our new method...
+jia.outputListOfHobbies();
